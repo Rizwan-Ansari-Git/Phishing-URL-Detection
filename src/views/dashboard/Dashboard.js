@@ -37,32 +37,51 @@ const Dashboard = () => {
 
   const checkPhishingURL = (url) => {
     const phishingPatterns = [
-      "phishing", 
-      "scam", 
-      "fraud", 
+
       "wwww", 
-      "http://", 
-      "@", 
-      "%", 
-      "#", 
-      "&", 
+      "http://",   
       "\\\\", 
       ".tk", ".ml", ".ga", ".cf", ".gq"
     ];
 
-    const ipAddressPattern = /\b(?:\d{1,3}\.){3}\d{1,3}\b/;
-    const invalidUrlCharacters = /[^a-zA-Z0-9.-/?:]/g;
+    // const ipAddressPattern = /\b(?:\d{1,3}\.){3}\d{1,3}\b/;
+    // const invalidUrlCharacters = /[^a-zA-Z0-9.-/?:]/g;
 
     const containsPhishingPattern = phishingPatterns.some((pattern) => url.includes(pattern));
-    const containsIPAddress = ipAddressPattern.test(url);
-    const containsInvalidCharacters = invalidUrlCharacters.test(url);
+    // const containsIPAddress = ipAddressPattern.test(url);
+    // const containsInvalidCharacters = invalidUrlCharacters.test(url);
 
-    return containsPhishingPattern || containsIPAddress || containsInvalidCharacters;
+    return containsPhishingPattern 
   };
 
   const isValidURL = (url) => {
-    const urlPattern = new RegExp(/^(https?:\/\/)?([a-z0-9.-]+\.[a-z]{2,}|localhost)(:[0-9]{1,5})?(\/.*)?$/i);
-    return urlPattern.test(url);
+    const parsedUrl = new URL(url);
+    
+    // Additional validation checks
+    const isSecureProtocol = parsedUrl.protocol === 'https:';
+    const unsafeDomains = ['example.com', 'malicious-site.com'];
+    const isUnsafeDomain = unsafeDomains.some(domain => parsedUrl.hostname.includes(domain));
+    const isValidPathLength = parsedUrl.pathname.length <= 2048;
+    const hasUnsafeQuery = parsedUrl.search.includes('unsafeParam');
+    const isSafePort = parsedUrl.port === '' || (parsedUrl.port >= 1 && parsedUrl.port <= 65535);
+    const hasSpecialChars = /[%<>]/.test(parsedUrl.href);
+    const isIpAddress = /^\d{1,3}(\.\d{1,3}){3}$/.test(parsedUrl.hostname);
+    const validTlds = ['.com', '.org', '.net', '.edu'];
+    const hasValidTld = validTlds.some(tld => parsedUrl.hostname.endsWith(tld));
+    const unsafeSubdomains = ['malicious', 'scam'];
+    const hasUnsafeSubdomain = unsafeSubdomains.some(sub => parsedUrl.hostname.startsWith(sub));
+
+    return (
+      isSecureProtocol &&
+      !isUnsafeDomain &&
+      isValidPathLength &&
+      !hasUnsafeQuery &&
+      isSafePort &&
+      !hasSpecialChars &&
+      !isIpAddress &&
+      hasValidTld &&
+      !hasUnsafeSubdomain
+    );
   };
 
   const handleSubmit = () => {
@@ -73,10 +92,10 @@ const Dashboard = () => {
       return;
     }
 
-    if (!isValidURL(url)) {
-      setError('Please enter a valid URL.');
-      return;
-    }
+    // if (!isValidURL(url)) {
+    //   setError('Please enter a valid URL.');
+    //   return;
+    // }
 
     const phishing = checkPhishingURL(url);
     setIsPhishing(phishing);
