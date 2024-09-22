@@ -30,7 +30,7 @@ Admin
 **Password:**: 
 Admin123
 
-## Link:  https://rizwan-ansari-git.github.io/Phishing-URL-Detection/
+## Link:https://rizwan-ansari-git.github.io/URL-Detection/
 
 
 ## Installation
