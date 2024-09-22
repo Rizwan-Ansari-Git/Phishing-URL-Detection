@@ -6,12 +6,11 @@ WebShield is a React application designed to analyze URLs and detect potential p
 
 ### Key Features
 
+- **IP Address Detection**: 
+URLs that use raw IP addresses instead of domain names are often suspicious and flagged by the system.
+
 - **Real-Time Analysis**:  
 The app ensures that the URL uses the HTTPS protocol, which is essential for web security.
-
-### Future Updates
-- **Browser Extension**:  
-  Users can use the WebShield extension for Chrome and Firefox. When they visit a website, the extension checks the URL in real time and displays a colored indicator in the browser’s address bar (green for safe, yellow for suspicious, red for phishing). If the user attempts to navigate to a known phishing site, a popup appears with a warning and options to report the site.
 
 - **Secure Protocol Verification**:  
   If a user encounters a suspicious URL that isn't flagged by the detector, they can easily report it through a simple form in the app or browser extension. This report gets sent to the PhishGuard Pro team, who reviews and adds it to the database if verified.
@@ -19,19 +18,19 @@ The app ensures that the URL uses the HTTPS protocol, which is essential for web
 - **Port and Pathname Validation**:  
   URLs with non-standard ports or excessively long pathnames are flagged. Additionally, URLs containing unsafe query parameters are identified.
 
-## User Journey Example
+### Future Updates
+- **Browser Extension**:  
+  Users can use the WebShield extension for Chrome and Firefox. When they visit a website, the extension checks the URL in real time and displays a colored indicator in the browser’s address bar (green for safe, yellow for suspicious, red for phishing). If the user attempts to navigate to a known phishing site, a popup appears with a warning and options to report the site.
 
-
-- **IP Address Detection**: 
-URLs that use raw IP addresses instead of domain names are often suspicious and flagged by the system.
 
 ## Login Credential
 **UserName:**: 
 Admin
+
 **Password:**: 
 Admin123
 
-## Link: https://rizwan-ansari-git.github.io/Phishing-URL-Detection/
+## Link:  https://rizwan-ansari-git.github.io/Phishing-URL-Detection/
 
 
 ## Installation
