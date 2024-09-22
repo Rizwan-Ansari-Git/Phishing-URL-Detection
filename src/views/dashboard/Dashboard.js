@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [isPhishingCount, setIsPhishingCount] = useState(0);
   const [isSafeCount, setIsSafeCount] = useState(0);
   const [isPhishing, setIsPhishing] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const storedResults = JSON.parse(localStorage.getItem('urlResults')) || [];
@@ -59,13 +60,27 @@ const Dashboard = () => {
     return containsPhishingPattern || containsIPAddress || containsInvalidCharacters;
   };
 
+  const isValidURL = (url) => {
+    const urlPattern = new RegExp(/^(https?:\/\/)?([a-z0-9.-]+\.[a-z]{2,}|localhost)(:[0-9]{1,5})?(\/.*)?$/i);
+    return urlPattern.test(url);
+  };
+
   const handleSubmit = () => {
-    if (!url) return;
+    setError(''); // Reset error message
+
+    if (!url) {
+      setError('Please enter a URL.');
+      return;
+    }
+
+    if (!isValidURL(url)) {
+      setError('Please enter a valid URL.');
+      return;
+    }
 
     const phishing = checkPhishingURL(url);
     setIsPhishing(phishing);
 
-    // const timestamp = new Date().toLocaleString();
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
     const newResult = { url, isPhishing: phishing, timestamp };
     const updatedResults = [...urlResults, newResult];
@@ -109,11 +124,13 @@ const Dashboard = () => {
             placeholder="Enter a website URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            invalid={!!error} // Use this for visual feedback if needed
           />
           <CButton color="primary" className="mt-3" onClick={handleSubmit}>
             Check URL
           </CButton>
-          
+          {error && <div className="text-danger mt-2">{error}</div>} {/* Error message display */}
+
           {isPhishing !== null && (
             <div className={`mt-4 p-3 ${isPhishing ? 'bg-danger' : 'bg-success'} text-white`}>
               {isPhishing ? "This website is NOT SAFE (Phishing URL)" : "This website is SAFE"}
@@ -201,33 +218,6 @@ const Dashboard = () => {
           </CCard>
         </CCol>
       </CRow>
-
-      {/* Summary Count Cards */}
-      
-
-      {/* URL Results Cards */}
-      {/* <CCard className="mb-4">
-        <CCardHeader>
-          <h5 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>URL Results Cards</h5>
-        </CCardHeader>
-        <CCardBody>
-          <CRow>
-            {filteredResults.map((item, index) => (
-              <CCol key={index} xs={12} sm={6} md={4} className="mb-3">
-                <CCard className={item.isPhishing ? 'border-danger' : 'border-success'}>
-                  <CCardBody>
-                    <h6>{item.url}</h6>
-                    <div className={item.isPhishing ? 'text-danger' : 'text-success'}>
-                      {item.isPhishing ? 'Not Safe' : 'Safe'}
-                    </div>
-                    <div>{item.timestamp}</div>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            ))}
-          </CRow>
-        </CCardBody>
-      </CCard> */}
     </>
   );
 };
