@@ -26,8 +26,10 @@ The app ensures that the URL uses the HTTPS protocol, which is essential for web
 URLs that use raw IP addresses instead of domain names are often suspicious and flagged by the system.
 
 ## Login Credential
-**UserName:**: Admin
-**Password:**: Admin123
+**UserName:**: 
+Admin
+**Password:**: 
+Admin123
 
 ## Link: https://rizwan-ansari-git.github.io/Phishing-URL-Detection/
 
